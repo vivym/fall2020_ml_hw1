@@ -1,0 +1,110 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[]{amsthm} %lets us use \begin{proof}
+\usepackage[]{amssymb} %gives us the character \varnothing
+\usepackage{amsmath}
+
+\title{Homework Set 1}
+\author{Ming Yang, SY2021120}
+\date\today
+
+\begin{document}
+
+\maketitle
+
+\section*{Section B}
+\subsection*{Problem 1}
+\subsubsection*{(a)}
+\begin{proof}
+\[
+    a \leq b \Rightarrow a^2 \leq ab \Rightarrow a \leq (ab)^{1/2}
+\]
+\end{proof}
+\subsubsection*{(b)}
+\begin{proof}
+Let $R_1$ be the distribution area of class $\omega_1$, and $R_2$ be the area of class $\omega_2$
+\[
+    p(error) = \int_{R_1}p(x, \omega_2)dx + \int_{R_2}p(x, \omega_1)dx
+\]
+In $R_1$ we always have $p(\omega_2 | x) \leq p(\omega_1 | x)$.
+\[
+    p(\omega_2 | x) \leq \left\{ p(\omega_1 \mid x)p(\omega_2 \mid x) \right\}^{1/2}
+\]
+\begin{equation*}
+\begin{aligned}
+    \int_{R_1}p(x, \omega_2)dx &= \int_{R_1}p(\omega_2 | x) \\
+    &\leq \int_{R_1}\left\{ p(\omega_1 \mid x)p(\omega_2 \mid x) \right\}^{1/2}p(x)dx \\
+    &= \int_{R_1}\left\{p(x, \omega_1)p(x, \omega_2)\right\}^{1/2}dx
+\end{aligned}
+\end{equation*}
+
+and similar situations apply for $R_2$:
+\[
+    \int_{R_2}p(x, \omega_1)dx \leq \int_{R_2}\left\{p(x, \omega_1)p(x, \omega_2)\right\}^{1/2}dx
+\]
+\begin{equation*}
+\begin{aligned}
+    p(error) &= \int_{R_1}p(x, \omega_2)dx + \int_{R_2}p(x, \omega_1)dx \\
+    &\leq \int_{R_1}\left\{p(x, \omega_1)p(x, \omega_2)\right\}^{1/2}dx + \int_{R_2}\left\{p(x, \omega_1)p(x, \omega_2)\right\}^{1/2}dx \\
+    &= \int\left\{p(x, \omega_1)p(x, \omega_2)\right\}^{1/2}dx
+\end{aligned}
+\end{equation*}
+\end{proof}
+
+\subsection*{Problem 2}
+\subsubsection*{(a)}
+\begin{proof}
+    \begin{equation*}
+    \begin{aligned}
+        R(a_i \mid \boldsymbol x) &= \sum_{j = 1}^{c}\lambda(a_i \mid \omega_j)p(\omega_j \mid \boldsymbol x) \\
+        &= \sum_{j=1, j \neq i}^{c}\lambda_s p(\omega_j \mid \boldsymbol x) \\
+        &= \lambda_s \sum_{j = 1, j \neq i} p(\omega_j \mid \boldsymbol x) \\
+        &= \lambda_s(1 - p(\omega_j \mid \boldsymbol x))
+    \end{aligned}
+    \end{equation*}
+
+    For taking the rejection decision we have:
+    \begin{equation*}
+    \begin{aligned}
+        R(a_{c + 1} \mid \boldsymbol x) &= \sum_{j = 1}^{c}\lambda(a_i \mid \omega_j)p(\omega_j \mid \boldsymbol x) \\
+        &= \sum_{j=1}^{c}\lambda_r p(\omega_j \mid \boldsymbol x) \\
+        &= \lambda_r \sum_{j = 1} p(\omega_j \mid \boldsymbol x) \\
+        &= \lambda_r
+    \end{aligned}
+    \end{equation*}
+
+    Action $a_i$ is taken if its risk is smaller than the risk of taking another action $a_j$, $i \neq j$:
+    \[\forall j = 1, ..., c, j \neq i\]
+    \begin{equation*}
+    \begin{aligned}
+        R(a_i \mid \boldsymbol x) \leq R(a_j \mid \boldsymbol x) &\Rightarrow \\
+        \lambda_s(1 - p(\omega_i \mid \boldsymbol x)) \leq \lambda_s(1 - p(\omega_j \mid \boldsymbol x)) &\Rightarrow \\
+        p(\omega_i \mid \boldsymbol x) \geq p(w_j \mid \boldsymbol x)
+    \end{aligned}
+    \end{equation*}
+
+    Also, the risk of action $a_i$ has to be less than the risk of rejection, That is:
+    \begin{equation*}
+    \begin{aligned}
+        R(a_i \mid \boldsymbol x) \leq R(a_{c + 1} \mid \boldsymbol x) &\Rightarrow \\
+        \lambda_s(1 - p(\omega_i \mid \boldsymbol x)) \leq \lambda_r &\Rightarrow \\
+        p(\omega_i \mid \boldsymbol x) \geq 1 - \frac{\lambda_r}{\lambda_s}
+    \end{aligned}
+    \end{equation*}
+    So, the minimum risk is obtained:
+    \begin{itemize}
+        \item if we decide $\omega_i$ if $P(\omega_i \mid \boldsymbol x) \geq P(\omega_j \mid \boldsymbol x)$ for all $j$ and
+              if $P(\omega_i \mid \boldsymbol x) \geq 1 - \frac{\lambda_r}{\lambda_s}$,
+        \item reject otherwise.
+    \end{itemize}
+\end{proof}
+
+\subsubsection*{(b)}
+\begin{itemize}
+    \item If $\lambda_r = 0$, then for all values of $\boldsymbol x$, the system always rejects the decision,
+            since this action has a cost of zero.
+    \item If $\lambda_r > \lambda_s$, then the rejection decision will never be taken.
+\end{itemize}
+
+\end{document}
